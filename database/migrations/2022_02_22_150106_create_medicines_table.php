@@ -19,9 +19,9 @@ class CreateMedicinesTable extends Migration
             $table->string('medicine_form', 300);
             $table->string('medicine_formula', 300);
             $table->text('description');
-            $table->smallInteger('faskes_1');
-            $table->smallInteger('faskes_2');
-            $table->smallInteger('faskes_3');
+            $table->tinyInteger('faskes_1');
+            $table->tinyInteger('faskes_2');
+            $table->tinyInteger('faskes_3');
             $table->timestamps();
         });
     }
