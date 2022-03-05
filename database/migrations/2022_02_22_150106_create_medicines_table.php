@@ -17,11 +17,13 @@ class CreateMedicinesTable extends Migration
             $table->id();
             $table->string('medicine_name', 100);
             $table->string('medicine_form', 300);
-            $table->string('medicine_formula', 300);
-            $table->text('description');
-            $table->tinyInteger('faskes_1');
-            $table->tinyInteger('faskes_2');
-            $table->tinyInteger('faskes_3');
+            $table->string('medicine_formula', 300)->nullable();
+            $table->double('price', 12, 2);
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->boolean('faskes_1')->default(0);
+            $table->boolean('faskes_2')->default(0);
+            $table->boolean('faskes_3')->default(0);
             $table->timestamps();
         });
     }
