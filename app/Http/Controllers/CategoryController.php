@@ -15,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $result = DB::table('categories')->get();
+        // $result = DB::table('categories')->get();
+        $result = Category::all();
 
         return view('category.index', ['result' => $result]);
     }
@@ -84,5 +85,13 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+    }
+
+    public function coba2()
+    {
+        // query 1 table
+        // (1)
+        $result = DB::table('categories')->get(); // Query builder
+        $result = Category::all(); // Eloquent
     }
 }

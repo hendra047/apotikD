@@ -19,10 +19,10 @@ class MedicineController extends Controller
         // $result = DB::select(DB::raw('SELECT * FROM medicines'));
 
         // query builder
-        $result = DB::table('medicines')->get();
+        // $result = DB::table('medicines')->get();
 
         // eloquent model
-        // $result = Medicine::all();
+        $result = Medicine::all();
 
         // dd($result);
 
@@ -60,7 +60,9 @@ class MedicineController extends Controller
      */
     public function show(Medicine $medicine)
     {
-        //
+        // dd($medicine);
+        $data = $medicine;
+        return view('medicine.show', compact('data'));
     }
 
     /**
@@ -95,5 +97,141 @@ class MedicineController extends Controller
     public function destroy(Medicine $medicine)
     {
         //
+    }
+
+    public function coba1()
+    {
+        // squery builder filter
+        $result = DB::table('medicines')
+            ->where('price', '>', 20000)
+            ->get();
+
+        $result = DB::table('medicines')
+            ->where('generic_name', 'like', '%fen')
+            ->get();
+
+        // group by
+        $result = DB::table('medicines')
+            ->select('generic_name')
+            ->groupBy('generic_name')
+            ->get();
+
+        // agregate
+        $result = DB::table('medicines')->count();
+
+        $result = DB::table('medicines')->max('price');
+
+        // filter + agregate
+        $result = DB::table('medicines')
+            ->where('generic_name', 'like', '%fen')    
+            ->avg('price');
+
+        // join + sort
+        $result = DB::table('medicines')
+            ->join('categories', 'medicines.category_id', '=', 'categories.id')
+            ->orderBy('price', 'desc')
+            ->get();
+
+        // Eloquen
+        $result = Medicine::where('price', '>', 20000)
+            ->get();
+
+        $result = Medicine::find(3);
+
+        dd($result);
+    }
+
+    public function coba2()
+    {
+        // query 1 table
+        // (2)
+        $result = DB::table('medicines')
+            ->select('generic_name', 'restriction_formula', 'price')
+            ->get(); // Query builder
+        $result = Medicine::select('generic_name', 'restriction_formula', 'price')->get(); // Eloquent
+
+        // query inner join 2 tables
+        // (1)
+        $result = DB::table('medicines')
+            ->join('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select(['generic_name', 'restriction_formula', 'categories.name'])
+            ->get(); // Query builder
+        $result = Medicine::select('generic_name', 'restriction_formula', 'category_id')
+            ->with(['category' => function($query) {
+                $query->select('id', 'name');
+            }])->get(); // Eloquent
+
+        // there is an aggregation of sum, count with 2 tables
+        // (1)
+        $result = DB::table('medicines')
+            ->join('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name')->distinct()->count('categories.name'); // Query builder
+        $result = Medicine::select('category_id')->with(['category' => function($query){
+                $query->select('id', 'name');
+            }])->distinct()->count('category_id'); // Eloquent
+
+        // (2)
+        $result = DB::table('medicines')
+            ->rightJoin('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name')
+            ->whereNull('medicines.generic_name')
+            ->get(); // Query Builder
+        $result = Medicine::rightJoin('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name')
+            ->whereNull('medicines.generic_name')
+            ->get(); // Eloquent
+
+        // (3)
+        $result = DB::table('medicines')
+            ->rightJoin('categories', 'medicines.category_id', '=', 'categories.id')
+            ->selectRaw('categories.name, if(avg(medicines.price) is null, 0, avg(medicines.price)) as "average price"')
+            ->groupBy('categories.name')
+            ->get(); // Query Builder
+        $result = Medicine::rightJoin('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name', DB::Raw('if(avg(medicines.price) is null, 0, avg(medicines.price)) as "average price"'))
+            ->groupBy('categories.name')
+            ->get(); // Eloquent
+
+        // (4)
+        $result = DB::table('medicines')
+            ->join('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name')
+            ->groupBy('categories.name')
+            ->havingRaw('COUNT(categories.name) = 1')
+            ->get(); // Query Builder
+        $result = Medicine::select('category_id')
+            ->with(['category' => function($query) {
+                $query->select('id', 'name');
+            }])->groupBy('category_id')
+            ->havingRaw('COUNT(category_id) = 1')
+            ->get(); // Eloquent
+
+        // (5)
+        $result = DB::table('medicines')
+            ->select('generic_name')
+            ->groupBy('generic_name')
+            ->havingRaw('COUNT(generic_name) = 1')
+            ->get(); // Query Builder
+        $result = Medicine::select('generic_name')
+            ->groupBy('generic_name')
+            ->havingRaw('COUNT(generic_name) = 1')
+            ->get(); // Eloquent
+
+        // (6)
+        $result = DB::table('medicines')
+            ->join('categories', 'medicines.category_id', '=', 'categories.id')
+            ->select('categories.name', 'generic_name')
+            ->where('medicines.price', '=', function($query) {
+                $query->selectRaw('MAX(med.price)')->from('medicines as med');
+            })->get(); // Query Builder
+        $result = Medicine::select('generic_name', 'category_id')
+            ->with(['category' => function($query) {
+                $query->select('id', 'name');
+            }])
+            ->where('price', '=', function($query) {
+                $query->selectRaw('MAX(med.price)')->from('medicines as med');
+            })->get(); // Eloquent
+
+        dd($result);
     }
 }

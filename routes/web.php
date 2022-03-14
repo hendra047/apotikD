@@ -20,3 +20,9 @@ Route::get('/', function () {
 Route::resource('medicines', 'MedicineController');
 
 Route::resource('categories', 'CategoryController');
+
+Route::get('coba1', 'MedicineController@coba1');
+
+Route::get('coba2', 'MedicineController@coba2');
+
+Route::get('coba2_category', 'CategoryController@coba2');
