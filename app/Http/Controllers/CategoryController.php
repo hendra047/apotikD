@@ -94,4 +94,16 @@ class CategoryController extends Controller
         $result = DB::table('categories')->get(); // Query builder
         $result = Category::all(); // Eloquent
     }
+
+    public function showlist($id_category)
+    {
+        $data=Category::find($id_category);
+        $namecategory=$data->name;
+        $result=$data->medicines;
+        if($result) $getTotalData=$result->count(); 
+               else $getTotalData=0;
+        
+        return view('report.list_medicines_by_category',
+           compact('id_category','namecategory','result','getTotalData'));
+    }
 }

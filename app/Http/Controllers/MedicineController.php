@@ -234,4 +234,29 @@ class MedicineController extends Controller
 
         dd($result);
     }
+
+    public function highestprice()
+    {
+        $sub = DB::table('medicines as m')
+            ->join('categories as c', 'm.category_id', 'c.id')
+            ->select('c.id', DB::Raw('MIN(m.id) as med_id'))
+            ->where('m.price', function($query) {
+                $query->from('medicines as m1')
+                    ->select('m1.price')
+                    ->whereColumn('m1.category_id', 'c.id')
+                    ->orderBy('m1.price', 'desc')
+                    ->take(1);
+            })
+            ->groupBy('c.id');
+        
+        $result = DB::table('medicines as m')
+            ->joinSub($sub, 'highest_price', function($join) {
+                $join->on('m.id', '=', 'highest_price.med_id');
+            })
+            ->rightJoin('categories as c', 'highest_price.id', 'c.id')
+            ->selectRaw('IFNULL(m.generic_name, "-") as generic_name, c.name as category_name, IFNULL(CAST(m.price as int), "-") as highest_price')
+            ->get();
+
+        return view('report.highest_price_per_category', compact('result'));
+    }
 }

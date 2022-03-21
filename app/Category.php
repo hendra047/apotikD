@@ -8,6 +8,6 @@ class Category extends Model
 {
     public function medicines()
     {
-        return $this->hasMany('App\Medicine', 'category_id');
+        return $this->hasMany('App\Medicine', 'category_id', 'id');
     }
 }

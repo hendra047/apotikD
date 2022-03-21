@@ -26,3 +26,7 @@ Route::get('coba1', 'MedicineController@coba1');
 Route::get('coba2', 'MedicineController@coba2');
 
 Route::get('coba2_category', 'CategoryController@coba2');
+
+Route::get('report/listmedicine/{id}','CategoryController@showlist');
+
+Route::get('report/highestprice','MedicineController@highestprice');
