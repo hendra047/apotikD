@@ -10,4 +10,10 @@ class Medicine extends Model
     {
         return $this->belongsTo('App\Category', 'category_id');
     }
+
+    public function transactions()
+    {
+        return $this->belongsToMany('App\Transaction')
+                    ->withPivot('quantity', 'price');
+    }
 }

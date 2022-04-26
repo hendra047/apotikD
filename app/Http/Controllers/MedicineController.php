@@ -259,4 +259,17 @@ class MedicineController extends Controller
 
         return view('report.highest_price_per_category', compact('result'));
     }
+
+    public function showInfo()
+    {
+        $result = Medicine::orderBy('price', 'desc')->first();
+
+        return response()->json([
+            'status'=>'oke',
+            'msg'=>"<div class='alert alert-danger'>
+                    Did you know? <br>
+                    Harga obat termahal adalah ".$result->generic_name." ".$result->form." dengan harga ".$result->price.
+                    "</div>"
+        ], 200);        
+    }
 }

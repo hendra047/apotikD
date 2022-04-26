@@ -1,8 +1,7 @@
-@extends('layout.conquer')
-
-@section('content')
-<div class="container">
-  <h2>Detail Obat</h2>
+<div class="modal-header">
+  <h4 class="modal-title">Data Obat</h4>
+</div>
+<div class="modal-body">
   <table class="table">
     <thead>
       <tr>
@@ -30,7 +29,7 @@
       <tr>
         <td>Foto</td>
         <td>
-           <img src="{{asset('images/'.$data->image)}}" height="100px"/>
+          <img src="{{asset('images/'.$data->image)}}" height="100px"/>
         </td>
       </tr>
       <tr>
@@ -40,4 +39,6 @@
     </tbody>
   </table>
 </div>
-@endsection
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
