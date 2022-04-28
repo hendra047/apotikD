@@ -33,3 +33,5 @@ Route::post('transactions/showDataAjax', 'TransactionController@showAjax')
     ->name('transactions.showAjax');
 Route::get('transactions/showDataAjax2/{id}', 'TransactionController@showAjax2')
     ->name('transactions.showAjax2');
+
+Route::resource('suppliers', 'SupplierController');

@@ -23,7 +23,15 @@
   </div>
 
   <div class="container" style="width:100%">
-    <h2>Daftar Obat</h2>
+    @if(session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    <div style="display: flex; align-items: end; justify-content: space-between;">
+      <h2 class="w-auto" style="display: inline-block">Daftar Obat</h2>
+      <a href="{{ route('medicines.create') }}" class="btn btn-primary">Tambah</a>
+    </div>
     <table class="table">
       <thead>
         <tr>

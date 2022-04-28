@@ -504,6 +504,12 @@ License: You must have a valid license purchased only from themeforest(the above
 				<span class="title">Transaction</span>
 				</a>
 			</li>
+            <li class="start ">
+				<a href="{{ route('suppliers.index') }}">
+				<i class="fa fa-archive"></i>
+				<span class="title">Supplier</span>
+				</a>
+			</li>
 		</ul>
 		<!-- END SIDEBAR MENU -->
 	</div>
