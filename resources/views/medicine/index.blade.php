@@ -75,7 +75,16 @@
             <a class='btn btn-info' href="{{url('medicines/'.$d->id)}}"
                data-target="#show{{$d->id}}" data-toggle='modal'>
                detail
-            </a>        
+            </a>
+            <a href="{{ url('medicines/'.$d->id.'/edit') }}"  class="btn btn-warning">Edit</a>
+
+            <form method="POST" action="{{ url('medicines/'.$d->id) }}">
+                @csrf
+                @method('DELETE')
+                <input type="submit" class="btn btn-danger" value="Delete"
+                onclick="if(!confirm('Are you sure to delete this record ?')) return false;">
+            </form>
+
             <div class="modal fade" id="show{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
               <div class="modal-dialog">
                <div class="modal-content">

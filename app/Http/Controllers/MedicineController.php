@@ -89,7 +89,9 @@ class MedicineController extends Controller
      */
     public function edit(Medicine $medicine)
     {
-        //
+        $data = $medicine;
+        $categories = Category::all();
+        return view('medicine.edit', compact('data', 'categories'));
     }
 
     /**
@@ -101,7 +103,18 @@ class MedicineController extends Controller
      */
     public function update(Request $request, Medicine $medicine)
     {
-        //
+        $medicine->generic_name = $request->get('generic_name');
+        $medicine->form = $request->get('form');
+        $medicine->restriction_formula = $request->get('restriction_formula');
+        $medicine->price = $request->get('price');
+        $medicine->description = $request->get('description');
+        $medicine->faskes1 = $request->get('faskes1') == 'on' ? 1 : 0;
+        $medicine->faskes2 = $request->get('faskes2') == 'on' ? 1 : 0;
+        $medicine->faskes3 = $request->get('faskes3') == 'on' ? 1 : 0;
+        $medicine->category_id = $request->get('category_id');
+        $medicine->save();
+        
+        return redirect()->route('medicines.index')->with('status', 'Medicines data is changed');
     }
 
     /**
@@ -112,7 +125,15 @@ class MedicineController extends Controller
      */
     public function destroy(Medicine $medicine)
     {
-        //
+        try {
+            $medicine->delete();
+
+            return redirect()->route('medicines.index')->with('status', 'Data Medicine berhasil dihapus');
+        } catch(\PDOException $e) {
+            $msg = "Data Gagal dihapus. Pastikan data child sudah hilang atau tidak berhubungan";
+
+            return redirect()->route('medicines.index')->with('error', $msg);
+        }
     }
 
     public function coba1()

@@ -13,6 +13,12 @@
                     {{ session('status') }}
                 </div>
             @endif
+            
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <table class="table">
                 <thead>
                     <tr>
@@ -29,8 +35,14 @@
                             <td>{{ $d->name }}</td>
                             <td>{{ $d->address }}</td>
                             <td>
-                                <a href=""  class="btn btn-warning">Edit</a>
-                                <a href=""  class="btn btn-danger">Delete</a>
+                                <a href="{{ url('suppliers/'.$d->id.'/edit') }}"  class="btn btn-warning">Edit</a>
+
+                                <form method="POST" action="{{ url('suppliers/'.$d->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" class="btn btn-danger" value="Delete"
+                                    onclick="if(!confirm('Are you sure to delete this record ?')) return false;">
+                                </form>
                             </td>
                         </tr>
                     @endforeach

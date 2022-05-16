@@ -66,7 +66,8 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        $data = $supplier;
+        return view('supplier.edit', compact('data'));
     }
 
     /**
@@ -78,7 +79,11 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $supplier->name = $request->get('name');
+        $supplier->address = $request->get('address');
+        $supplier->save();
+        
+        return redirect()->route('suppliers.index')->with('status', 'Supplier data is changed');
     }
 
     /**
@@ -89,6 +94,14 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        try {
+            $supplier->delete();
+
+            return redirect()->route('suppliers.index')->with('status', 'Data Supplier berhasil dihapus');
+        } catch(\PDOException $e) {
+            $msg = "Data Gagal dihapus. Pastikan data child sudah hilang atau tidak berhubungan";
+
+            return redirect()->route('suppliers.index')->with('error', $msg);
+        }
     }
 }

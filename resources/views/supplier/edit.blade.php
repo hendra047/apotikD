@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container" style="width: 100%">
-  <h2>Form Tambah Supplier</h2>
+  <h2>Edit Supplier</h2>
   <div class="portlet">
         <div class="portlet-title">
             <div class="caption">
@@ -13,20 +13,20 @@
             </div>
         </div>
         <div class="portlet-body form">
-            {{-- <form role="form" method="POST" action = "{{ route('suppliers.store') }}"> --}}
-            <form role="form" method="POST" action = "{{ url('suppliers') }}">
+            <form role="form" method="POST" action = "{{ url('suppliers/'.$data->id) }}">
                 @csrf
+                @method('PUT')
                 <div class="form-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="isikan nama supplier">
+                        <input type="text" class="form-control" name="name" value="{{ $data->name }}" placeholder="isikan nama supplier">
                         <span class="help-block">
                         *tulis nama lengkap perusahaan </span>
                     </div>
                     
                     <div class="form-group">
                         <label>Address</label>
-                        <textarea class="form-control" rows="3" name="address"></textarea>
+                        <textarea class="form-control" rows="3" name="address">{{ $data->address }}</textarea>
                     </div>
                 </div>
                 <div class="form-actions">
