@@ -24,12 +24,12 @@ class MedicineController extends Controller
 
         // eloquent model
         $result = Medicine::all();
-
+        $categories = Category::all();
         // dd($result);
 
         // return view('medicine.index', compact('result'));
 
-        return view('medicine.index', ['result' => $result]);
+        return view('medicine.index', compact('result', 'categories'));
     }
 
     /**
@@ -134,6 +134,71 @@ class MedicineController extends Controller
 
             return redirect()->route('medicines.index')->with('error', $msg);
         }
+    }
+
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = Medicine::find($id);
+        $categories = Category::all();
+
+        return response()->json(array(
+            'status'=>'ok',
+            'msg'=>view('medicine.getEditForm', compact('data', 'categories'))->render()
+        ), 200);
+    }
+
+    public function getEditForm2(Request $request)
+    {
+        $id = $request->get('id');
+        $data = Medicine::find($id);
+        $categories = Category::all();
+        
+        return response()->json(array(
+            'status'=>'ok',
+            'msg'=>view('medicine.getEditForm2', compact('data', 'categories'))->render()
+        ), 200);
+    }
+
+    public function deleteData(Request $request)
+    {
+        try {
+            $id = $request->get('id');
+            $Medicine = Medicine::find($id);
+            $Medicine->delete();
+
+            return response()->json(array(
+                'status'=>'ok',
+                'msg'=>'Berhasil menghapus data'
+            ), 200);
+        } catch (\PDOException $e)
+        {
+            return response()->json(array(
+                'status'=>'ok',
+                'msg'=>'Medicine is not deleted. It may be used in another table'
+            ), 500);
+        }
+    }
+
+    public function saveData(Request $request)
+    {
+        $id = $request->get('id');
+        $Medicine = Medicine::find($id);
+        $Medicine->generic_name = $request->get('generic_name');
+        $Medicine->form = $request->get('form');
+        $Medicine->restriction_formula = $request->get('restriction_formula');
+        $Medicine->price = $request->get('price');
+        $Medicine->description = $request->get('description');
+        $Medicine->faskes1 = $request->get('faskes1') == 'on' ? 1 : 0;
+        $Medicine->faskes2 = $request->get('faskes2') == 'on' ? 1 : 0;
+        $Medicine->faskes3 = $request->get('faskes3') == 'on' ? 1 : 0;
+        $Medicine->category_id = $request->get('category_id');
+        $Medicine->save();
+
+        return response()->json(array(
+            'status'=>'ok',
+            'msg'=>'Medicine data updated'
+        ), 200);
     }
 
     public function coba1()
