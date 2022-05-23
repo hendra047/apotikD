@@ -276,9 +276,9 @@
             var eRestrictionFormula = $('#eRestrictionFormula').val();
             var ePrice = $('#ePrice').val();
             var eDescription = $('#eDescription').val();
-            var eFaskes1 = $('#eFaskes1').val();
-            var eFaskes2 = $('#eFaskes2').val();
-            var eFaskes3 = $('#eFaskes3').val();
+            var eFaskes1 = $('#eFaskes1').is(':checked') ? 1 : 0;
+            var eFaskes2 = $('#eFaskes2').is(':checked') ? 1 : 0;
+            var eFaskes3 = $('#eFaskes3').is(':checked') ? 1 : 0;
             var eCategoryId = $('#eCategoryId option:selected').val();
             var eCategoryName = $('#eCategoryId option:selected').text();
 

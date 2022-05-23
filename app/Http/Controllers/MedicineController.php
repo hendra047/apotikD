@@ -189,9 +189,9 @@ class MedicineController extends Controller
         $Medicine->restriction_formula = $request->get('restriction_formula');
         $Medicine->price = $request->get('price');
         $Medicine->description = $request->get('description');
-        $Medicine->faskes1 = $request->get('faskes1') == 'on' ? 1 : 0;
-        $Medicine->faskes2 = $request->get('faskes2') == 'on' ? 1 : 0;
-        $Medicine->faskes3 = $request->get('faskes3') == 'on' ? 1 : 0;
+        $Medicine->faskes1 = $request->get('faskes1');
+        $Medicine->faskes2 = $request->get('faskes2');
+        $Medicine->faskes3 = $request->get('faskes3');
         $Medicine->category_id = $request->get('category_id');
         $Medicine->save();
 

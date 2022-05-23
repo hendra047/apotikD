@@ -24,7 +24,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-info"
         data-dismiss="modal"
-        onclick="saveDataUpdateTD({{$d->id}})">Submit</button>
+        onclick="saveDataUpdateTD({{$data->id}})">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
 </form>
